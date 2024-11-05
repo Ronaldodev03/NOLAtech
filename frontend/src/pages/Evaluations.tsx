@@ -5,9 +5,12 @@ import { useEffect } from "react";
 import { Frown, Smile } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import EmployeeStats from "@/components/Employee/stats";
+import { useAuthStore } from "@/stores/authUser";
 export default function EmployeesPage() {
   const { evaluations, isFetchingEvaluations, fetchEvaluationsEmployee } =
     useUserStore();
+
+  const { user } = useAuthStore();
 
   const location = useLocation();
 
@@ -68,16 +71,28 @@ export default function EmployeesPage() {
                     </p>
                   </div>
 
-                  <Link
-                    to={`/edit/${ev._id}?comment=${ev.comments}&score=${
-                      ev.score
-                    }&employee=${location.pathname.split("/")[2]}`}
-                    className={`${buttonVariants({
-                      variant: "default",
-                    })} ml-auto`}
-                  >
-                    Edit
-                  </Link>
+                  {user && user.role === "Admin" && (
+                    <Link
+                      to={`/edit/${ev._id}?comment=${ev.comments}&score=${
+                        ev.score
+                      }&employee=${location.pathname.split("/")[2]}`}
+                      className={`${buttonVariants({
+                        variant: "default",
+                      })} ml-auto`}
+                    >
+                      Edit
+                    </Link>
+                  )}
+                  {user && user.role === "Employee" && (
+                    <Link
+                      to={`/evaluation/${ev._id}/feedback`}
+                      className={`${buttonVariants({
+                        variant: "default",
+                      })} ml-auto`}
+                    >
+                      Feedback
+                    </Link>
+                  )}
                 </div>
               );
             })}

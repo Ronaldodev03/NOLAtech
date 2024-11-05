@@ -158,6 +158,7 @@ import ManagerPage from "./pages/ManagerPage";
 import Evaluations from "./pages/Evaluations";
 import Evaluate from "./pages/Evaluate";
 import EditPage from "./pages/EditPage";
+import FeedbackPage from "./pages/FeedbackPage";
 
 function App() {
   const { user, isCheckingAuth, authCheck } = useAuthStore();
@@ -204,12 +205,24 @@ function App() {
 
           <Route
             path="/all-users"
-            element={user ? <AllUsersPage /> : <Navigate to={"/"} />}
+            element={
+              user && user.role === "Admin" ? (
+                <AllUsersPage />
+              ) : (
+                <Navigate to={"/"} />
+              )
+            }
           />
 
           <Route
             path="/managers"
-            element={user ? <ManagerPage /> : <Navigate to={"/"} />}
+            element={
+              user && user.role !== "Employee" ? (
+                <ManagerPage />
+              ) : (
+                <Navigate to={"/"} />
+              )
+            }
           />
 
           <Route
@@ -224,12 +237,35 @@ function App() {
 
           <Route
             path="/evaluate/:id"
-            element={user ? <Evaluate /> : <Navigate to={"/"} />}
+            element={
+              user && user.role !== "Employee" ? (
+                <Evaluate />
+              ) : (
+                <Navigate to={"/employees"} />
+              )
+            }
           />
 
           <Route
             path="/edit/:id"
-            element={user ? <EditPage /> : <Navigate to={"/"} />}
+            element={
+              user && user.role !== "Employee" ? (
+                <EditPage />
+              ) : (
+                <Navigate to={"/"} />
+              )
+            }
+          />
+
+          <Route
+            path="/evaluation/:id/feedback"
+            element={
+              user && user.role === "Employee" ? (
+                <FeedbackPage />
+              ) : (
+                <Navigate to={"/employees"} />
+              )
+            }
           />
 
           <Route path="/*" element={<NotFoundPage />} />
