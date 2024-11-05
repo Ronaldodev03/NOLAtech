@@ -2,10 +2,10 @@ import jwt from "jsonwebtoken";
 import User from "../models/user.model.js";
 import { ENV_VARS } from "../config/envVars.js";
 
-export const authorize = (roles) => {
+export const authorize = (...roles) => {
   return (req, res, next) => {
-    if (!roles.includes(req.user.role)) {
-      return res.status(403).json({ message: "Forbidden" });
+    if (!req.user || !roles.includes(req.user.role)) {
+      return res.status(403).json({ message: "Forbidden: Access denied" });
     }
     next();
   };
