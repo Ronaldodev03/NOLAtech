@@ -59,6 +59,8 @@ export default function EvaluationForm() {
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
     const { employee, evaluator, ...dataToDB } = data;
 
+    console.log(employee, evaluator);
+
     console.log({
       ...dataToDB,
       score: +data.score,
