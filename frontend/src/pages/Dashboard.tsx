@@ -16,14 +16,14 @@ export default function DashboardPage() {
       <TabsContent value="employees">
         <Card>
           <CardContent className=" py-6 text-center">
-            No evaluations yet!
+            Not implemented yet!
           </CardContent>
         </Card>
       </TabsContent>
       <TabsContent value="managers">
         <Card>
           <CardContent className=" py-6 text-center">
-            No evaluations yet!
+            Not implemented yet!
           </CardContent>
         </Card>
       </TabsContent>
