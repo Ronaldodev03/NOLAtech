@@ -1,16 +1,24 @@
 import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
 import MainMenu from "../components/main-menu";
 import MenuTitle from "../components/menu-title";
-import { ChevronLeft, ChevronRight, Loader, MenuIcon } from "lucide-react";
+import {
+  ChevronLeft,
+  ChevronRight,
+  // Loader,
+  MenuIcon,
+} from "lucide-react";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { useState } from "react";
 import { Outlet } from "react-router-dom";
 import { useAuthStore } from "@/stores/authUser";
-import { useUserStore } from "@/stores/userStore";
+//import { useUserStore } from "@/stores/userStore";
 
 export default function LayoutLoggedIn() {
-  const { user, isCheckingAuth } = useAuthStore();
-  const { isLoadingUsers } = useUserStore();
+  const {
+    user,
+    // isCheckingAuth
+  } = useAuthStore();
+  //  const { isLoadingUsers } = useUserStore();
 
   const isDesktop = useMediaQuery("(min-width: 768px)");
 
