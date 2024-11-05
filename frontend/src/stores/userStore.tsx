@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import toast from "react-hot-toast";
 import { create } from "zustand";
 
@@ -32,6 +32,8 @@ type UserStoreType = {
   }) => Promise<void>;
 };
 
+type CustomError = AxiosError<{ message?: string }>;
+
 export const useUserStore = create<UserStoreType>((set) => ({
   users: null,
   employeeCount: 0,
@@ -64,8 +66,9 @@ export const useUserStore = create<UserStoreType>((set) => ({
       });
     } catch (error) {
       console.log(error);
+      const err = error as CustomError;
       set({ isLoadingUsers: false });
-      toast.error(error.response?.data?.message || "Failed to fetch users");
+      toast.error(err.response?.data?.message || "Failed to fetch users");
     }
   },
 
@@ -82,7 +85,8 @@ export const useUserStore = create<UserStoreType>((set) => ({
     } catch (error) {
       console.log(error);
       set({ isLoadingUsers: false });
-      toast.error(error.response?.data?.message || "Failed to fetch users");
+      const err = error as CustomError;
+      toast.error(err.response?.data?.message || "Failed to fetch users");
     }
   },
 
@@ -94,7 +98,8 @@ export const useUserStore = create<UserStoreType>((set) => ({
       toast.success("Evaluated successfully");
     } catch (error) {
       set({ isEvaluating: false });
-      toast.error(error.response.data.message || "Evaluation failed");
+      const err = error as CustomError;
+      toast.error(err?.response?.data.message || "Evaluation failed");
     }
   },
 
@@ -108,7 +113,8 @@ export const useUserStore = create<UserStoreType>((set) => ({
       toast.success("Edited successfully");
     } catch (error) {
       set({ isEditing: false });
-      toast.error(error.response.data.message || "Edition failed");
+      const err = error as CustomError;
+      toast.error(err?.response?.data.message || "Edition failed");
     }
   },
 }));

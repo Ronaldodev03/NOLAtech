@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import toast from "react-hot-toast";
 import { create } from "zustand";
 import { UserType } from "../types/types";
@@ -17,6 +17,8 @@ type StoreType = {
   authCheck: () => Promise<void>;
 };
 
+type CustomError = AxiosError<{ message?: string }>;
+
 export const useAuthStore = create<StoreType>((set) => ({
   user: null,
   isSigningUp: false,
@@ -30,7 +32,8 @@ export const useAuthStore = create<StoreType>((set) => ({
       set({ user: response.data.user, isSigningUp: false });
       toast.success("Account created successfully");
     } catch (error) {
-      toast.error(error.response.data.message || "Signup failed");
+      const err = error as CustomError;
+      toast.error(err?.response?.data.message || "Signup failed");
       set({ isSigningUp: false, user: null });
     }
   },
@@ -41,8 +44,9 @@ export const useAuthStore = create<StoreType>((set) => ({
       set({ user: response.data.user, isLoggingIn: false });
       toast.success("Logged in successfully");
     } catch (error) {
+      const err = error as CustomError;
       set({ isLoggingIn: false, user: null });
-      toast.error(error.response.data.message || "Login failed");
+      toast.error(err?.response?.data.message || "Login failed");
     }
   },
   logout: async () => {
@@ -52,8 +56,9 @@ export const useAuthStore = create<StoreType>((set) => ({
       set({ user: null, isLoggingOut: false });
       toast.success("Logged out successfully");
     } catch (error) {
+      const err = error as CustomError;
       set({ isLoggingOut: false });
-      toast.error(error.response.data.message || "Logout failed");
+      toast.error(err?.response?.data.message || "Logout failed");
     }
   },
   authCheck: async () => {
