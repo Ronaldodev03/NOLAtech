@@ -51,8 +51,10 @@ export async function signup(req, res) {
       role,
     });
 
-    // generateTokenAndSetCookie(newUser._id, res);
     await newUser.save();
+
+    const token = generateToken(newUser);
+    res.cookie("token_nolatech", token, { httpOnly: true });
 
     res.status(201).json({
       success: true,
@@ -119,7 +121,6 @@ export async function logout(req, res) {
 
 export async function authCheck(req, res) {
   try {
-    console.log("req.user:", req.user);
     res.status(200).json({ success: true, user: req.user });
   } catch (error) {
     console.log("Error in authCheck controller", error.message);
