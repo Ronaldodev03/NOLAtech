@@ -20,7 +20,10 @@ export default function MainMenu({ className }: { className?: string }) {
         <MenuItem href="/">My dashboard</MenuItem>
 
         {user && user.role === "Admin" && (
-          <MenuItem href="/all-users">All Users</MenuItem>
+          <>
+            <MenuItem href="/all-users">All Users</MenuItem>
+            <MenuItem href="/admins">Admins</MenuItem>
+          </>
         )}
 
         {user && user.role !== "Employee" && (

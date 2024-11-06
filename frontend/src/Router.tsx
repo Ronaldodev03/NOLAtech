@@ -159,6 +159,7 @@ import Evaluations from "./pages/Evaluations";
 import Evaluate from "./pages/Evaluate";
 import EditPage from "./pages/EditPage";
 import FeedbackPage from "./pages/FeedbackPage";
+import AdminPage from "./pages/AdminPage";
 
 function App() {
   const { user, isCheckingAuth, authCheck } = useAuthStore();
@@ -208,6 +209,17 @@ function App() {
             element={
               user && user.role === "Admin" ? (
                 <AllUsersPage />
+              ) : (
+                <Navigate to={"/"} />
+              )
+            }
+          />
+
+          <Route
+            path="/admins"
+            element={
+              user && user.role === "Admin" ? (
+                <AdminPage />
               ) : (
                 <Navigate to={"/"} />
               )

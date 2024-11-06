@@ -15,18 +15,32 @@ export default function DashboardPage() {
       <TabsList className="mb-4">
         <TabsTrigger value="all">All</TabsTrigger>
 
+        {user && user.role === "Admin" && (
+          <TabsTrigger value="admins">Admins</TabsTrigger>
+        )}
+
         {user && (user.role === "Manager" || user.role === "Admin") && (
-          <TabsTrigger value="managers">Managers stats</TabsTrigger>
+          <TabsTrigger value="managers">Managers</TabsTrigger>
         )}
 
         {user && (user.role === "Employee" || user.role === "Admin") && (
-          <TabsTrigger value="employees">Employees stats</TabsTrigger>
+          <TabsTrigger value="employees">Employees</TabsTrigger>
         )}
       </TabsList>
 
       <TabsContent value="all">
         <AllStats />
       </TabsContent>
+
+      {user && user.role === "Admin" && (
+        <TabsContent value="admins">
+          <Card>
+            <CardContent className=" py-6 text-center">
+              Not implemented yet!
+            </CardContent>
+          </Card>
+        </TabsContent>
+      )}
 
       {user && (user.role === "Manager" || user.role === "Admin") && (
         <TabsContent value="managers">

@@ -1,6 +1,12 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { LaptopIcon, UserIcon, UserRoundCog, UsersRound } from "lucide-react";
+import {
+  LaptopIcon,
+  UserCheck,
+  UserIcon,
+  UserRoundCog,
+  UsersRound,
+} from "lucide-react";
 import { Link } from "react-router-dom";
 import AllUsersGraph from "./allUsersGraph";
 import { useUserStore } from "@/stores/userStore";
@@ -12,15 +18,15 @@ export default function AllStats() {
   const { user } = useAuthStore();
   return (
     <>
-      <div className="grid lg:grid-cols-3 gap-4">
-        <Card>
+      <div className="grid lg:grid-cols-4 gap-4">
+        <Card className=" border-blue-500">
           <CardHeader className="pb-2">
             <CardTitle className="text-base">All users</CardTitle>
           </CardHeader>
           <CardContent className="flex justify-between items-center">
             <div className="flex gap-2">
               <UsersRound className=" text-blue-500" />
-              <div className="text-5xl font-bold">
+              <div className="text-4xl font-bold">
                 {adminCount + managerCount + employeeCount}
               </div>
             </div>
@@ -28,6 +34,25 @@ export default function AllStats() {
               {user?.role === "Admin" && (
                 <Button size="sm" asChild>
                   <Link to="/all-users">View all</Link>
+                </Button>
+              )}
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-base">Total Admins</CardTitle>
+          </CardHeader>
+          <CardContent className="flex justify-between items-center">
+            <div className="flex gap-2">
+              <UserCheck className=" text-blue-500" />
+              <div className="text-5xl font-bold">{adminCount}</div>
+            </div>
+            <div>
+              {user?.role === "Admin" && (
+                <Button size="sm" asChild>
+                  <Link to="/admins">View all</Link>
                 </Button>
               )}
             </div>
