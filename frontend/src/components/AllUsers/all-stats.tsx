@@ -5,9 +5,11 @@ import { Link } from "react-router-dom";
 import AllUsersGraph from "./allUsersGraph";
 import { useUserStore } from "@/stores/userStore";
 import PieGraph from "./pieGraph";
+import { useAuthStore } from "@/stores/authUser";
 
 export default function AllStats() {
   const { managerCount, employeeCount, adminCount } = useUserStore();
+  const { user } = useAuthStore();
   return (
     <>
       <div className="grid lg:grid-cols-3 gap-4">
@@ -23,9 +25,11 @@ export default function AllStats() {
               </div>
             </div>
             <div>
-              <Button size="sm" asChild>
-                <Link to="/all-users">View all</Link>
-              </Button>
+              {user?.role === "Admin" && (
+                <Button size="sm" asChild>
+                  <Link to="/all-users">View all</Link>
+                </Button>
+              )}
             </div>
           </CardContent>
         </Card>
@@ -40,9 +44,11 @@ export default function AllStats() {
               <div className="text-5xl font-bold">{managerCount}</div>
             </div>
             <div>
-              <Button size="sm" asChild>
-                <Link to="/managers">View all</Link>
-              </Button>
+              {user?.role !== "Employee" && (
+                <Button size="sm" asChild>
+                  <Link to="/managers">View all</Link>
+                </Button>
+              )}
             </div>
           </CardContent>
         </Card>
